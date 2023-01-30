@@ -1,0 +1,36 @@
+﻿@page
+@model AspDotNetCoreCRUDOpration.Pages.Clients.DeleteModel
+@{
+}
+@using System.Data.SqlClient;
+
+
+
+@{ 
+    try
+    {
+        string id = Request.Query["id"];
+
+        string connectionString = "Data Source=DESKTOP-NIKT6KQ\\SQLEXPRESS01;Initial Catalog=Core;Integrated Security=True";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string sql = "Delete from Client where id=@id";
+
+            using (SqlCommand cmd = new SqlCommand(sql, connection))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.ExecuteNonQuery();
+
+            }
+        }
+    }
+    catch (Exception)
+    {
+
+
+    }
+    Response.Redirect("/Clients/Index/");
+}
